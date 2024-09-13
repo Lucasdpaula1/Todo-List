@@ -24,9 +24,9 @@ class User {
   }
   async CreateUser() {
     try {
+      console.log(this.password);
       const query = `INSERT INTO users (name,password,email) VALUES (?,?,?)`;
       await db.query(query, [this.name, this.password, this.email]);
-      db.releaseConnection();
 
       return "inserção feita com sucesso";
     } catch (error) {
