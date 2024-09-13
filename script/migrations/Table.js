@@ -1,4 +1,3 @@
-const { createBrotliCompress } = require("zlib");
 require("dotenv").config();
 const db = require("../connectionDb");
 const { config } = require("dotenv");
@@ -17,5 +16,9 @@ module.exports = {
     } catch (error) {
       throw new Error(error);
     }
+  },
+  down: async () => {
+    await db.query(`DROP TABLE users`);
+    console.log("banco de dados removido com sucesso");
   },
 };
