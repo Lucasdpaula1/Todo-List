@@ -1,6 +1,6 @@
 const { up, down } = require("../migrations/Table");
 const db = require("../connectionDb");
-const { userInfo } = require("os");
+
 function criarModel() {
   try {
     // criar um novo esquema
@@ -34,4 +34,4 @@ class User {
     }
   }
 }
-module.exports = User;
+module.exports = { User };
