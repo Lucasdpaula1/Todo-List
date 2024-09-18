@@ -1,6 +1,8 @@
 const { User } = require("../models/User");
 const bcrypt = require("bcrypt");
 const db = require("../connectionDb");
+const { throwDeprecation } = require("process");
+const { error } = require("console");
 
 module.exports = {
   CreateUser: async (req, response) => {
@@ -26,6 +28,27 @@ module.exports = {
     }
   },
   DeleteUser: async (req, response) => {
-    console.log("irei deleter o usuário");
+    const { Id, Name, Email } = req.body;
+
+    try {
+      const query = `select * from users where email ='${Email}';`;
+      const [result] = await db.query(query);
+      console.log(result.length);
+
+      if (result.length === 0) {
+        console.log("estou executando isso");
+        throw error;
+      }
+      const RemoverUser = await new User(
+        Name,
+        Email,
+        undefined,
+        Id
+      ).DeleteUser();
+
+      response.send(RemoverUser);
+    } catch (error) {
+      response.send("não foi possivel excluir o usuário");
+    }
   },
 };
