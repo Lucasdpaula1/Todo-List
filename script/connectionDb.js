@@ -1,10 +1,10 @@
 const mysql = require("mysql2/promise");
 const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  host: "localhost",
+  user: "root",
+  database: "todolist",
+  password: "1234",
+  port: "3307",
   connectionLimit: 10,
 });
 const main = async () => {
@@ -16,7 +16,6 @@ const main = async () => {
   } finally {
     db.releaseConnection();
   }
-  console.log("está em promesi");
 };
 
 main();
