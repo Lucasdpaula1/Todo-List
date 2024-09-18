@@ -1,5 +1,6 @@
 const { up, down } = require("../migrations/Table");
 const db = require("../connectionDb");
+const bcript = require("bcrypt");
 
 function criarModel() {
   try {
@@ -9,13 +10,14 @@ function criarModel() {
     console.log(error);
   }
 }
-function destroiModel() {
+async function destroiModel() {
   try {
-    down();
+    await down();
   } catch (error) {
     console.log("não foi possivel destruir o banco de dados", down);
   }
 }
+
 class User {
   constructor(name, email, password) {
     this.name = name;
@@ -24,9 +26,12 @@ class User {
   }
   async CreateUser() {
     try {
-      console.log(this.password);
+      const camadaDeSeguranca = 10;
+      const senhaUser = this.password;
+      const senhaHash = bcript.hashSync(senhaUser, camadaDeSeguranca);
+
       const query = `INSERT INTO users (name,password,email) VALUES (?,?,?)`;
-      await db.query(query, [this.name, this.password, this.email]);
+      await db.query(query, [this.name, senhaHash, this.email]);
 
       return "inserção feita com sucesso";
     } catch (error) {
